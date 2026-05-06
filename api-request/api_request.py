@@ -1,6 +1,8 @@
 import requests
-url = '09ac46a08e452dcdbc800ba18ebc0461'
-api_url = f"https://api.weatherstack.com/current?access_key={url}&query=New York"
+import os
+
+API_KEY = os.environ.get("WEATHERSTACK_API_KEY")
+api_url = f"https://api.weatherstack.com/current?access_key={API_KEY}&query=New York"
 
 def fetch_data():
     print("Fetching weather data from Weatherstack API...")
