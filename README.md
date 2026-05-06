@@ -5,12 +5,14 @@ An end-to-end data engineering project that collects, transforms, and visualizes
 ## 📐 Architecture
 
 ```mermaid
-graph LR
-    A[Weather API] --> B[Airflow]
-    B --> C[(PostgreSQL\nraw_weather_data)]
-    C --> D[dbt]
-    D --> E[(PostgreSQL\ndev.stg_weather_data)]
-    E --> F[Apache Superset]
+flowchart TD
+    A[Weather API] -->|every 1 min| B[Apache Airflow\nOrchestration - DAG]
+    B -->|ingest task| C[(PostgreSQL\ndev.raw_weather_data)]
+    C -->|dbt run| D[dbt\nTransform & deduplicate]
+    D --> E[stg_weather_data]
+    D --> F[daily_average]
+    D --> G[weather_report]
+    E & F & G --> H[Apache Superset\nVisualization]
 ```
 
 ## 🛠️ Tech Stack
